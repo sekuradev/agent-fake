@@ -37,7 +37,26 @@ func send(){
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
+	accesses := []*pb.Access{
+		&pb.Access{
+			Id: "foo",
+			InternalId: "ifoo",
+			Properties: map[string]string{
+				"data1": "value1",
+			},
+		},
+		&pb.Access{
+			Id: "bar",
+			InternalId: "ibar",
+		},
+		&pb.Access{
+			Id: "bazz",
+			InternalId: "ibazz",
+		},
+	}
+
 	data := &pb.SetAccessRequest{
+		Accesses: accesses,
 	}
 
 	_, errClient := client.SetAccess(ctx, data)
