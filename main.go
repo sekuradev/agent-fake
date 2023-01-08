@@ -9,7 +9,6 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-	//"google.golang.org/grpc/credentials/insecure"
 
 	pb "github.com/sekuradev/apigolang/sekuraapi/v1"
 )
@@ -28,7 +27,6 @@ func send(){
     }
 
 	conn, errConn := grpc.Dial(serverAddress, grpc.WithTransportCredentials(creds))
-	//conn, errConn := grpc.Dial(serverAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if errConn != nil {
 		log.Fatalf("Connection to server could not be stablished at %s: %v", serverAddress, errConn)
 	}
