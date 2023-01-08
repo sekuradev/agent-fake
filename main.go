@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"context"
 	"flag"
+	"fmt"
 	"log"
 	"time"
-	"context"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -17,14 +17,14 @@ var serverName string
 var serverPort int
 var certFile string
 
-func send(){
+func send() {
 
 	serverAddress := fmt.Sprintf("%s:%d", serverName, serverPort)
 
-    creds, err := credentials.NewClientTLSFromFile(certFile, serverName)
-    if err != nil {
-        log.Fatalf("error creating client credentials: %v", err)
-    }
+	creds, err := credentials.NewClientTLSFromFile(certFile, serverName)
+	if err != nil {
+		log.Fatalf("error creating client credentials: %v", err)
+	}
 
 	conn, errConn := grpc.Dial(serverAddress, grpc.WithTransportCredentials(creds))
 	if errConn != nil {
@@ -39,18 +39,18 @@ func send(){
 
 	accesses := []*pb.Access{
 		&pb.Access{
-			Id: "foo",
+			Id:         "foo",
 			InternalId: "ifoo",
 			Properties: map[string]string{
 				"data1": "value1",
 			},
 		},
 		&pb.Access{
-			Id: "bar",
+			Id:         "bar",
 			InternalId: "ibar",
 		},
 		&pb.Access{
-			Id: "bazz",
+			Id:         "bazz",
 			InternalId: "ibazz",
 		},
 	}
@@ -68,15 +68,15 @@ func send(){
 func main() {
 	flag.StringVar(&serverName, "serverName", "sekura.localhost", "Server address.")
 	flag.IntVar(&serverPort, "serverPort", 50051, "Server port.")
-    flag.StringVar(&certFile, "cert", "", "Server certificate file.")
-    flag.Parse()
+	flag.StringVar(&certFile, "cert", "", "Server certificate file.")
+	flag.Parse()
 
 	if certFile == "" {
-        log.Fatalln("flag --cert is required")
-    }
+		log.Fatalln("flag --cert is required")
+	}
 
 	fmt.Printf("Connecting to %s:%d\n", serverName, serverPort)
-	for true{
+	for true {
 		log.Println("Sending data.")
 		send()
 		time.Sleep(10 * time.Second)
